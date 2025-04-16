@@ -26,7 +26,8 @@ def read_patient_data_from_excel(file_path):
     return patient_data
 
 # Example Excel file path (Ensure the file is present at this path)
-file_path = "/app/patients_data.xlsx"
+# file_path = "patient\~$patients_data.xlsx"
+file_path = "D:\\cn proj\\CN_Project\\patient\\patients_data.xlsx"
 
 # Function to generate patient data in the desired format
 def generate_patient_data(meta):
@@ -59,16 +60,16 @@ def simulate_traffic():
 
     for patient_meta in patients:
         data = generate_patient_data(patient_meta)
-        print("🚀 Sending Data:", data)  # 👈 See the actual payload
+        print("Sending Data:", data)  # 👈 See the actual payload
         
         try:
             # Send the data to the server
             response = requests.post(MAIN_HOST, json=data)
             # Check if the request was successful
             if response.status_code == 200:
-                print(f"✅ Sent | Status: {response.status_code} | Patient: {data['patient']}")
+                print(f"Sent | Status: {response.status_code} | Patient: {data['patient']}")
             else:
-                print(f"❌ Failed to send | Status: {response.status_code} | Patient: {data['patient']}")
+                print(f"Failed to send | Status: {response.status_code} | Patient: {data['patient']}")
         except requests.exceptions.RequestException as e:
             # Handle network issues, server down, etc.
             print(f"Error while sending data: {e}")
