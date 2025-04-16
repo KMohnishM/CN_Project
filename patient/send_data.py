@@ -27,7 +27,7 @@ def read_patient_data_from_excel(file_path):
 
 # Example Excel file path (Ensure the file is present at this path)
 # file_path = "patient\~$patients_data.xlsx"
-file_path = "D:\\cn proj\\CN_Project\\patient\\patients_data.xlsx"
+file_path = "patients_data.xlsx"
 
 # Function to generate patient data in the desired format
 def generate_patient_data(meta):
