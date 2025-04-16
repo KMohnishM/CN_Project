@@ -1,0 +1,12 @@
+groups:
+- name: hospital-vital-alerts
+  rules:
+    - alert: LowSpO2
+      expr: spo2_percent < 90
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Low SpO2 for patient {{ $labels.patient_id }}"
+        description: "SpO2 below 90% for more than 1 minute."
+
