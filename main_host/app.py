@@ -19,7 +19,9 @@ metrics = {
     'lactate': Gauge('lactate', 'Lactate (mmol/L)', ['hospital', 'department', 'ward', 'patient']),
     'blood_glucose': Gauge('blood_glucose', 'Blood Glucose (mg/dL)', ['hospital', 'department', 'ward', 'patient']),
     # ECG skipped for now
+    'anomaly_score': Gauge('anomaly_score', 'Anomaly Score', ['hospital', 'department', 'ward', 'patient']),  # New anomaly score metric
 }
+
 
 @app.route('/track', methods=['POST'])
 def track_traffic():

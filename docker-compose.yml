@@ -205,10 +205,21 @@ services:
       container_name: alertmanager
       ports:
         - "9093:9093"
+      networks:
+        - hospital_network  
       volumes:
         - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       command:
         - '--config.file=/etc/alertmanager/alertmanager.yml'
+  ml_service:
+    build: ./ml_service
+    container_name: ml_service
+    ports:
+      - "6000:6000"
+    networks:
+      - hospital_network
+    volumes:
+       - ./ml_service:/app
 
 volumes:
   prometheus-data:

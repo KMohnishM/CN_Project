@@ -63,3 +63,4 @@ groups:
         annotations:
           summary: "High ETCO2 for patient {{ $labels.patient_id }}"
           description: "ETCO2 is above 45 mmHg."
+      

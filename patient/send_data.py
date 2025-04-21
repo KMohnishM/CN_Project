@@ -7,30 +7,27 @@ import random
 import numpy as np
 import json
 
-# The URL for the main host where the data will be sent
+# URLs
 MAIN_HOST = 'http://main_host:8000/track'
+ML_MODEL_URL = 'http://ml_service:6000/predict'  # Change 'ml_service' based on your Docker network
 
-# Function to read patient data from Excel file (supports multiple sheets)
+# Read Excel file with multiple sheets
 def read_patient_data_from_excel(file_path):
-    # Check if file exists
     if not os.path.exists(file_path):
         print(f"Error: The file '{file_path}' does not exist.")
         return []
     
-    # Read the Excel file with multiple sheets
     try:
-        # Load the Excel file
-        df_sheets = pd.read_excel(file_path, sheet_name=None)  # This will load all sheets
+        df_sheets = pd.read_excel(file_path, sheet_name=None)
     except Exception as e:
         print(f"Error reading the Excel file: {e}")
         return []
     
     return df_sheets
 
-# Function to generate updated patient data with new values
+# Generate slightly updated vitals
 def generate_updated_patient_data(meta, time_diff_minutes=1):
-    # Simulate incremental changes in the patient's data
-    heart_rate = meta['heart_rate'] + random.randint(-5, 5)  # slight change
+    heart_rate = meta['heart_rate'] + random.randint(-5, 5)
     bp_systolic = meta['bp_systolic'] + random.randint(-2, 2)
     bp_diastolic = meta['bp_diastolic'] + random.randint(-2, 2)
     respiratory_rate = meta['respiratory_rate'] + random.randint(-1, 1)
@@ -41,7 +38,6 @@ def generate_updated_patient_data(meta, time_diff_minutes=1):
     lactate = round(meta['lactate'] + random.uniform(-0.1, 0.1), 1)
     blood_glucose = meta['blood_glucose'] + random.randint(-5, 5)
 
-    # Update timestamp
     timestamp = (datetime.utcnow() + timedelta(minutes=time_diff_minutes)).isoformat()
 
     return {
@@ -64,7 +60,20 @@ def generate_updated_patient_data(meta, time_diff_minutes=1):
         "ecg_signal": "dummy_waveform_data"
     }
 
-# Function to simulate sending patient data one by one
+# Get anomaly score from ML service
+def get_anomaly_score(data):
+    try:
+        response = requests.post(ML_MODEL_URL, json=data, timeout=3)
+        if response.status_code == 200:
+            return float(response.json().get("anomaly_score", 0.0))
+        else:
+            print(f"ML service failed with code {response.status_code}")
+            return 0.0
+    except Exception as e:
+        print(f"Error contacting ML service: {e}")
+        return 0.0
+
+# Simulate traffic
 def simulate_traffic(file_path):
     sheets = read_patient_data_from_excel(file_path)
     if not sheets:
@@ -73,28 +82,31 @@ def simulate_traffic(file_path):
     sheet_names = list(sheets.keys())
     sheet_data = {name: sheets[name].to_dict(orient='records') for name in sheet_names}
 
-    row_index = 0  # Start from the first row
+    row_index = 0
     time_diff_minutes = 1
 
     while True:
-        active = False  # Check if there's any data left
+        active = False
 
         for sheet_name in sheet_names:
             rows = sheet_data[sheet_name]
             if row_index < len(rows):
-                active = True  # At least one sheet has data at this index
+                active = True
                 patient_meta = rows[row_index]
 
-                # Generate updated data
                 data = generate_updated_patient_data(patient_meta, time_diff_minutes)
-                print("Sending Updated Data for Patient", patient_meta['patient'], ":", data)
+
+                anomaly_score = get_anomaly_score(data)
+                data["anomaly_score"] = anomaly_score
+
+                print("Sending Updated Data:", data)
 
                 try:
                     response = requests.post(MAIN_HOST, json=data)
                     if response.status_code == 200:
-                        print(f"Sent | Status: {response.status_code} | Patient: {data['patient']}")
+                        print(f"✔ Sent | Patient: {data['patient']} | Score: {anomaly_score}")
                     else:
-                        print(f"Failed to send | Status: {response.status_code} | Patient: {data['patient']}")
+                        print(f"✘ Failed | Status: {response.status_code} | Patient: {data['patient']}")
                 except requests.exceptions.RequestException as e:
                     print(f"Error while sending data: {e}")
 
@@ -102,13 +114,12 @@ def simulate_traffic(file_path):
                 time_diff_minutes += 1
 
         if not active:
-            print("All rows processed from all sheets.")
-            break  # Exit if no more data left in any sheet
+            print("All rows processed.")
+            break
 
-        row_index += 1  # Move to next row in next cycle
+        row_index += 1
 
-
-# Main loop to keep sending updated data indefinitely
+# Main
 if __name__ == '__main__':
-    file_path = "patients_data.xlsx"  # Ensure this is the correct path to your Excel file
-    simulate_traffic(file_path)  # Continuously send data for all patients sheet by sheet
+    file_path = "patients_data.xlsx"
+    simulate_traffic(file_path)
