@@ -1,7 +1,7 @@
 
 # Cloud-Based Network Traffic Monitoring and Anomaly Detection for Healthcare Infrastructure
 
-![image](../CN_Project/Images/architecture.jpg)
+![image](Images/architecture.jpg)
 
 
 ## 🩺 Project Overview
