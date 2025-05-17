@@ -1,7 +1,8 @@
 
 # Cloud-Based Network Traffic Monitoring and Anomaly Detection for Healthcare Infrastructure
 
-![Architecture](./assets/architecture-diagram.png) <!-- Optional image placeholder -->
+![Architecture](![image](https://github.com/user-attachments/assets/7cdff1bb-2094-422e-afa5-efb73320bc0c)
+) <!-- Optional image placeholder -->
 
 ## 🩺 Project Overview
 
@@ -71,7 +72,11 @@ CN_Project/
 
 ## 📊 Dashboards
 
-> Add screenshots inside the `/assets` folder and reference them here.
+![image](https://github.com/user-attachments/assets/4c70b982-b763-44ee-85b4-20747271702a)
+![image](https://github.com/user-attachments/assets/20514f68-f5bc-4918-a9ba-e0614fec909c)
+![image](https://github.com/user-attachments/assets/06bf4b73-3ab5-4461-ac18-27cb15354ae6)
+![image](https://github.com/user-attachments/assets/56a28606-e381-481e-afa5-1d55b27f2d66)
+
 
 - Real-time ECG, HR, and SpO2 dashboards
 - Department-wise heatmaps
