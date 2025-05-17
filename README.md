@@ -74,9 +74,9 @@ CN_Project/
 ## 📊 Dashboards
 
 
-![image](../CN_Project/Images/Picture1.jpg)
-![image](../CN_Project//Images/Picture2.jpg)
-![image](../CN_Project/Images/image.png)
+![image](Images/Picture1.jpg)
+![image](Images/Picture2.jpg)
+![image](Images/image.png)
 
 
 - Real-time ECG, HR, and SpO2 dashboards
