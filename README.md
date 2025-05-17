@@ -1,10 +1,11 @@
 
 # Cloud-Based Network Traffic Monitoring and Anomaly Detection for Healthcare Infrastructure
 
-![Architecture](![image](https://github.com/user-attachments/assets/7cdff1bb-2094-422e-afa5-efb73320bc0c)
-) <!-- Optional image placeholder -->
+![image](https://github.com/user-attachments/assets/300024da-d3b7-4839-9957-d8e196dcd80e)
+
 
 ## 🩺 Project Overview
+
 
 This project provides a scalable, Dockerized monitoring system designed for cloud-based healthcare infrastructures. It simulates a multi-tier hospital network and collects real-time medical metrics (SpO2, heart rate, ECG, etc.) from patient devices. The system is deployed on AWS and leverages Prometheus, Grafana, and Alertmanager to visualize and alert on anomalies.
 
@@ -72,7 +73,7 @@ CN_Project/
 
 ## 📊 Dashboards
 
-![image](https://github.com/user-attachments/assets/4c70b982-b763-44ee-85b4-20747271702a)
+
 ![image](https://github.com/user-attachments/assets/20514f68-f5bc-4918-a9ba-e0614fec909c)
 ![image](https://github.com/user-attachments/assets/06bf4b73-3ab5-4461-ac18-27cb15354ae6)
 ![image](https://github.com/user-attachments/assets/56a28606-e381-481e-afa5-1d55b27f2d66)
